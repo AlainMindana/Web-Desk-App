@@ -46,8 +46,8 @@ public class EmployeeController {
                 .orElseThrow(() -> new resourceNotFoundHandler("Employee not found for this id :: " + employeeId));
         return ResponseEntity.ok().body(employee);
     }*/
-a
-    @GetMapping("/{employeeNumber}"){
+
+    @GetMapping("/{employeeNumber}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable(name = "employeeNumber") Long employeeNumber) {
         return new ResponseEntity(employeeService.view(employeeNumber), HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ a
         return new ResponseEntity<Employee>(employeeRepository.findByEmployeeNumber(employeeNumber), HttpStatus.OK);
     }*/
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) throws Exception {
         return ResponseEntity.ok(employeeService.create(employee));
     }
