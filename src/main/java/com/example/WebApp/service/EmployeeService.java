@@ -1,22 +1,25 @@
 package com.example.WebApp.service;
 
 import com.example.WebApp.domain.dto.EmployeeDto;
-import com.example.WebApp.domain.entity.Employee;
 import com.example.WebApp.domain.entity.Ticket;
 
 import java.util.List;
 
+/*
+    Employee DTO Generic Interface
+ */
+
 public interface EmployeeService {
 
-    Employee view(Long employeeNumber);
+    List<EmployeeDto> view(Long employeeNumber);
 
     List<EmployeeDto> list();
 
-    Employee create(Employee employee) throws Exception;
+    EmployeeDto create(EmployeeDto employeeDto) throws Exception;
 
-    Employee update(Employee employee) throws Exception;
+    EmployeeDto update(EmployeeDto employeeDto) throws Exception;
 
-    void delete(Long employeeNumber) throws Exception;
+    EmployeeDto delete(Long employeeNumber) throws Exception;
 
     Ticket assignedTicket(Long ticketId, Long employeeNumber) throws Exception;
 

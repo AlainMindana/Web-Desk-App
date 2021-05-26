@@ -14,6 +14,15 @@ public class TicketDto {
     private Status status;
     private Employee assignee;
     private List<Employee> watchers;
+    private Long empNum;
+
+    public Long getEmpNum() {
+        return empNum;
+    }
+
+    public void setEmpNum(Long empNum) {
+        this.empNum = empNum;
+    }
 
     public Long getTicket() {
         return ticket;

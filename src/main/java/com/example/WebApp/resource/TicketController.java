@@ -1,45 +1,47 @@
 package com.example.WebApp.resource;
 
-import com.example.WebApp.domain.entity.Employee;
+import com.example.WebApp.domain.dto.TicketDto;
 import com.example.WebApp.domain.entity.Ticket;
-import com.example.WebApp.domain.exceptionHandler.resourceNotFoundHandler;
-import com.example.WebApp.repository.EmployeeRepository;
-import com.example.WebApp.repository.TicketRepository;
+import com.example.WebApp.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/ticket")
 public class TicketController{
-    @Autowired
-    private TicketRepository ticketRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
-    @GetMapping("/ticket")
-    private List<Ticket> getAllTicket(){
-        return ticketRepository.findAll();
+    @Autowired
+    TicketService ticketService;
+
+    @GetMapping("/")
+    private ResponseEntity<Ticket> getAllTicket(){
+        return new ResponseEntity(ticketService.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/ticket/{ticketId}")
+    /*@GetMapping("/")
     public ResponseEntity<Ticket> getTicket(@PathVariable(name = "ticketId") Long ticket)
             throws resourceNotFoundHandler {
         Ticket ticket1 = ticketRepository.findById(ticket)
                 .orElseThrow(() -> new resourceNotFoundHandler("Ticket not found for this id :: " + ticket));
         return ResponseEntity.ok().body(ticket1);
+    }*/
+
+    @GetMapping("/viewTicket")
+    public ResponseEntity<TicketDto> getTicket(@RequestBody TicketDto ticketDto){
+        return new ResponseEntity(ticketService.view(ticketDto), HttpStatus.OK);
     }
 
-    @PostMapping("/ticket")
-    public Ticket createTicket(@RequestBody Ticket ticket) {
-        return ticketRepository.save(ticket);
+    @PostMapping("/")
+    public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto) throws Exception {
+        return new ResponseEntity(ticketService.create(ticketDto), HttpStatus.OK);
     }
 
-    @PutMapping("/ticket/{ticketId}")
+/*    @PutMapping("/ticket/{ticketId}")
     public ResponseEntity<Ticket> updateEmployee(@PathVariable(value = "ticket") Long ticketId,
                                                    @RequestBody Ticket ticketInfo) throws resourceNotFoundHandler {
         Ticket ticket = ticketRepository.findById(ticketId)
@@ -54,14 +56,28 @@ public class TicketController{
 //        ticket.setWatchers(ticketInfo.getWatchers());
         final Ticket updatedTicket = ticketRepository.save(ticket);
         return ResponseEntity.ok(updatedTicket);
+    }*/
+
+    @PutMapping("/")
+    public ResponseEntity<Ticket> updateTicket(@RequestBody TicketDto ticketDto) throws Exception{
+        return new ResponseEntity(ticketService.update(ticketDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/ticket/{ticketId}")
+/*    @DeleteMapping("/ticket/{ticketId}")
     public Map<String, Boolean> deleteTicket(@PathVariable(name = "ticketId") Long ticketId)
             throws resourceNotFoundHandler {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new resourceNotFoundHandler("Ticket not found for this id :: " + ticketId));
         ticketRepository.delete(ticket);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }*/
+
+    @DeleteMapping("/")
+    public Map<String, Boolean> deleteTicket(@RequestBody TicketDto ticketDto)
+            throws Exception {
+        ticketService.delete(ticketDto);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
@@ -80,7 +96,7 @@ public class TicketController{
         return ResponseEntity.ok(assignedTicket);
     }*/
 
-    @PutMapping("/ticket/{ticketId}/{employeeNumber}")
+/*    @PutMapping("/ticket/{ticketId}/{employeeNumber}")
     public ResponseEntity<Ticket> assignTicket(@PathVariable(name = "ticketId") Long ticketId, @PathVariable(name = "employeeNumber") Long employeeNumber)
             throws resourceNotFoundHandler {
         Ticket ticket = ticketRepository.findById(ticketId)
@@ -90,7 +106,7 @@ public class TicketController{
         final Ticket assignedTicket = ticketRepository.save(ticket);
         return ResponseEntity.ok(assignedTicket);
 
-    }
+    }*/
 
 /*
     @PutMapping("/ticket/watchers")
@@ -108,7 +124,12 @@ public ResponseEntity<Ticket> addWatchers(@RequestBody Ticket watchers*/
     }
 */
 
-
+/*    @PutMapping("/watchers")
+    public ResponseEntity<Ticket> addWatchers(@RequestBody TicketDto ticketDto) throws Exception {
+        Long ticket = ticketDto.getTicket();
+        Long empNum = ticketDto.getEmpNum();
+        return new ResponseEntity(ticketService.assignWatcher(empNum, ticket), HttpStatus.OK);
+    }*/
 }
 
 

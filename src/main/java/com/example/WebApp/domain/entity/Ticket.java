@@ -5,6 +5,7 @@ import com.example.WebApp.domain.reference.Status;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,9 +34,9 @@ public class Ticket {
     @JoinColumn(name = "assigneeId", referencedColumnName = "id")
     private Employee assignee;
 
-    @ManyToMany
-    @JoinColumn(name = "employeeId", referencedColumnName = "id")
-    private List<Employee> watchers;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinColumn(name = "employeeId", referencedColumnName = "employeeNumber")
+    private List<Employee> watchers = new ArrayList<>();
 
     public Long getTicket() {
         return ticket;
@@ -88,6 +89,7 @@ public class Ticket {
     public List<Employee> getWatchers() {
         return watchers;
     }
+
     public void setWatchers(List<Employee> watchers) {
         this.watchers = watchers;
     }

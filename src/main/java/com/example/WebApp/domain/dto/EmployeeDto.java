@@ -1,11 +1,10 @@
 package com.example.WebApp.domain.dto;
 
-//import com.example.WebApp.domain.entity.Ticket;
 import com.example.WebApp.domain.reference.Department;
 
-import java.util.List;
-
-//Model
+/*
+    Domain Class
+ */
 
 public class EmployeeDto {
     private Long id;
@@ -14,11 +13,6 @@ public class EmployeeDto {
     private String middleName;
     private String lastName;
     private Department department;
-//    private List<Ticket> employeeTickets;
-//
-//    public List<Ticket> getEmployeeTickets() {
-//        return employeeTickets;
-//    }
 
     public Long getId() {
         return id;

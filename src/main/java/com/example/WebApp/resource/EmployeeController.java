@@ -1,10 +1,8 @@
 package com.example.WebApp.resource;
 
+import com.example.WebApp.domain.dto.EmployeeDto;
 import com.example.WebApp.domain.entity.Employee;
-import com.example.WebApp.domain.entity.Ticket;
-import com.example.WebApp.domain.exceptionHandler.resourceNotFoundHandler;
 import com.example.WebApp.repository.EmployeeRepository;
-import com.example.WebApp.repository.TicketRepository;
 import com.example.WebApp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,18 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(/*"/api/v1/"*/  "/employee/")
+@RequestMapping(/*"/api/v1/"*/  "/employee")
 public class EmployeeController {
 
-/*    private EmployeeRepository employeeRepository;
-    private TicketRepository ticketRepository;*/
     @Autowired
     EmployeeService employeeService;
-
+    @Autowired
+    EmployeeRepository employeeRepository;
 
 /*
     @GetMapping("/employee")
@@ -33,7 +29,7 @@ public class EmployeeController {
     }
 */
 
-    @GetMapping()
+    @GetMapping("/")
     private ResponseEntity<Employee> getAllEmployee(){
         return new ResponseEntity(employeeService.list(), HttpStatus.OK);
     }
@@ -47,9 +43,10 @@ public class EmployeeController {
         return ResponseEntity.ok().body(employee);
     }*/
 
-    @GetMapping("/{employeeNumber}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable(name = "employeeNumber") Long employeeNumber) {
-        return new ResponseEntity(employeeService.view(employeeNumber), HttpStatus.OK);
+    @GetMapping("/employeeFind")
+    public ResponseEntity<Employee> getEmployeeById(@RequestBody Employee employee) {
+        Long employeeNum = employee.getEmployeeNumber();
+        return new ResponseEntity(employeeService.view(employeeNum), HttpStatus.OK);
     }
 
 /*
@@ -58,9 +55,9 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(employeeRepository.findByEmployeeNumber(employeeNumber), HttpStatus.OK);
     }*/
 
-    @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) throws Exception {
-        return ResponseEntity.ok(employeeService.create(employee));
+    @PostMapping("/")
+    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeCreate) throws Exception {
+        return new ResponseEntity(employeeService.create(employeeCreate), HttpStatus.OK);
     }
 
 
@@ -77,10 +74,9 @@ public class EmployeeController {
     }
 */
 
-    @PutMapping("/{employeeNumber}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable(name = "employeeNumber") Long employeeNumber,
-                                                   @RequestBody Employee employeeInfo) throws Exception {
-        return new ResponseEntity(employeeService.update(employeeInfo), HttpStatus.OK);
+    @PutMapping("/")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeDto employeeUpdate) throws Exception {
+        return new ResponseEntity(employeeService.update(employeeUpdate), HttpStatus.OK);
     }
 
 
@@ -111,6 +107,7 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedEmployee);
     }
 */
+
     /*
     @DeleteMapping("/employee/{employeeNumber}")
     public Map<String, Boolean> deleteEmployee(@PathVariable(name = "employeeNumber") Long employeeNumber) {
@@ -128,8 +125,9 @@ public class EmployeeController {
         return response;
     }*/
 
-    @DeleteMapping("/employee/{employeeNumber}")
-    public Map<String, Boolean> deleteEmployee(@PathVariable(name = "employeeNumber") Long employeeNumber) throws Exception {
+    @DeleteMapping("/")
+    public Map<String, Boolean> deleteEmployee(@RequestBody Employee employee) throws Exception {
+        Long employeeNumber = employee.getEmployeeNumber();
         employeeService.delete(employeeNumber);
         Map<String, Boolean> response = new HashMap<>();
         response.put("--Employee Deleted--", Boolean.TRUE);

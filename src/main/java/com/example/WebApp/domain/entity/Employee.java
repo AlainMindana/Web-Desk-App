@@ -31,9 +31,8 @@ public class Employee {
     @Column(name = "department", nullable = false)
     private Department department;
 
-    public Long getId() {
-        return id;
-    }
+
+    public Long getId() { return id; }
 
     public void setId(Long id) {
         this.id = id;
