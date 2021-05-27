@@ -1,7 +1,6 @@
 package com.example.WebApp.service;
 
 import com.example.WebApp.domain.dto.TicketDto;
-import com.example.WebApp.domain.entity.Ticket;
 
 import java.util.List;
 
@@ -17,5 +16,5 @@ public interface TicketService {
 
     TicketDto delete(TicketDto ticketDto) throws Exception;
 
-//    List<TicketDto> assignWatcher(Long employeeId, Long ticket) throws Exception;
+    List<TicketDto> assignWatcher(TicketDto ticketDto) throws Exception;
 }

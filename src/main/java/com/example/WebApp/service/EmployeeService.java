@@ -5,10 +5,6 @@ import com.example.WebApp.domain.entity.Ticket;
 
 import java.util.List;
 
-/*
-    Employee DTO Generic Interface
- */
-
 public interface EmployeeService {
 
     List<EmployeeDto> view(Long employeeNumber);
@@ -21,6 +17,6 @@ public interface EmployeeService {
 
     EmployeeDto delete(Long employeeNumber) throws Exception;
 
-    Ticket assignedTicket(Long ticketId, Long employeeNumber) throws Exception;
+    Ticket assignedTicket(EmployeeDto employeeDto) throws Exception;
 
 }

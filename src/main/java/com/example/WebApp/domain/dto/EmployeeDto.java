@@ -2,9 +2,6 @@ package com.example.WebApp.domain.dto;
 
 import com.example.WebApp.domain.reference.Department;
 
-/*
-    Domain Class
- */
 
 public class EmployeeDto {
     private Long id;
@@ -13,6 +10,7 @@ public class EmployeeDto {
     private String middleName;
     private String lastName;
     private Department department;
+    private Long ticket;
 
     public Long getId() {
         return id;
@@ -60,5 +58,13 @@ public class EmployeeDto {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Long getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Long ticket) {
+        this.ticket = ticket;
     }
 }

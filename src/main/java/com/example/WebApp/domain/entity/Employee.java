@@ -1,19 +1,16 @@
 package com.example.WebApp.domain.entity;
 
 import com.example.WebApp.domain.reference.Department;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
-//@DynamicUpdate
 @Table(name = "employee",
         uniqueConstraints = @UniqueConstraint(columnNames = {"employee_number"}))
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @OneToOne(mappedBy = "assignee")
     private Long id;
 
     @Column(name = "employee_number", nullable = false, unique = true, updatable = false)
@@ -30,7 +27,6 @@ public class Employee {
 
     @Column(name = "department", nullable = false)
     private Department department;
-
 
     public Long getId() { return id; }
 

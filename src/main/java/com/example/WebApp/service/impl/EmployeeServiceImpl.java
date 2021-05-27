@@ -21,9 +21,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    /*
-    view: look for CERTAIN employee
-     */
 
     @Override
     public List<EmployeeDto> view(Long employeeNumber) {
@@ -41,9 +38,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return viewEmployee;
     }
 
-    /*
-        list: list ALL employees regardless
-         */
     @Override
     public List<EmployeeDto> list() {
         return employeeRepository.findAll().stream().map(employee -> {
@@ -118,11 +112,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Ticket assignedTicket(Long ticketId, Long employeeNumber) throws Exception{
-        Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new Exception("Ticker Id#" + ticketId + " doesn't exists"));
-//        Employee employee = employeeRepository.findByEmployeeNumber(employeeNumber);
-        Employee employee = employeeRepository.findByEmployeeNumber(employeeNumber) == null ? null : employeeRepository.findByEmployeeNumber(employeeNumber);
+    public Ticket assignedTicket(EmployeeDto employeeDto) throws Exception{
+        Ticket ticket = ticketRepository.findById(employeeDto.getTicket())
+                .orElseThrow(() -> new Exception("Ticker Id#" + employeeDto.getTicket() + " doesn't exists"));
+        Employee employee = employeeRepository.findByEmployeeNumber(employeeDto.getEmployeeNumber()) == null ?
+                null : employeeRepository.findByEmployeeNumber(employeeDto.getEmployeeNumber());
         ticket.setAssignee(employee);
         final Ticket assignedTicket = ticketRepository.save(ticket);
         return assignedTicket;

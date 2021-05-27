@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Boolean existsByAssignee(Employee assignee);
-//    Optional<Ticket> findById(Long id);
     Ticket findByTicket(Long id);
 }

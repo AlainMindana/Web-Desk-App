@@ -5,13 +5,12 @@ import com.example.WebApp.domain.entity.Employee;
 import com.example.WebApp.domain.entity.Ticket;
 import com.example.WebApp.repository.EmployeeRepository;
 import com.example.WebApp.repository.TicketRepository;
-import com.example.WebApp.service.EmployeeService;
 import com.example.WebApp.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,18 +105,18 @@ public class TicketServiceImpl implements TicketService {
         return null;
     }
 
-/*    @Override
-    public List<TicketDto> assignWatcher(Long employeeId, Long ticket) throws Exception {
-        Ticket ticketAssign = ticketRepository.findByTicket(ticket);
-        Employee watchee = employeeRepository.findByEmployeeNumber(employeeId);
+    @Override
+    public List<TicketDto> assignWatcher(TicketDto ticketDto) throws Exception {
+        Ticket ticketAssign = ticketRepository.findByTicket(ticketDto.getTicket());
+        Employee watchee = employeeRepository.findByEmployeeNumber(ticketDto.getEmpNum());
         if (ticketAssign == null){
-            throw new Exception("Ticket Id: " + ticket + " doesn't exist");
+            throw new Exception("Ticket Id: " + ticketDto.getTicket() + " doesn't exist");
         } else if (watchee == null){
-            throw new Exception("Employee Number: " + employeeId + " doesn't exist");
+            throw new Exception("Employee Number: " + ticketDto.getEmpNum() + " doesn't exist");
         }
-        HashSet<Employee> addWatchers = new HashSet<Employee>();
-        addWatchers.add(watchee);
-        ticketAssign.setWatchers(addWatchers);
+
+        ticketAssign.getWatchers().add(watchee);
+        ticketRepository.save(ticketAssign);
         return null;
-    }*/
+    }
 }

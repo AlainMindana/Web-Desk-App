@@ -2,7 +2,6 @@ package com.example.WebApp.domain.entity;
 
 import com.example.WebApp.domain.reference.Severity;
 import com.example.WebApp.domain.reference.Status;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,8 +33,10 @@ public class Ticket {
     @JoinColumn(name = "assigneeId", referencedColumnName = "id")
     private Employee assignee;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinColumn(name = "employeeId", referencedColumnName = "employeeNumber")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "TICKET_WATCHERS",
+                joinColumns = {@JoinColumn(name = "ticket_id")},
+                inverseJoinColumns = {@JoinColumn(name = "id")})
     private List<Employee> watchers = new ArrayList<>();
 
     public Long getTicket() {
