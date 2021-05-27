@@ -31,6 +31,7 @@ public class TicketServiceImpl implements TicketService {
         ticketView.setStatus(ticket.getStatus());
         ticketView.setSeverity(ticket.getSeverity());
         ticketView.setAssignee(ticket.getAssignee());
+        ticketView.setWatchers(ticket.getWatchers());
         List<TicketDto> viewTicket = new ArrayList<>();
         viewTicket.add(ticketView);
         return viewTicket;
@@ -45,6 +46,8 @@ public class TicketServiceImpl implements TicketService {
             ticketDto.setDescription(ticket.getDescription());
             ticketDto.setSeverity(ticket.getSeverity());
             ticketDto.setStatus(ticket.getStatus());
+            ticketDto.setAssignee(ticket.getAssignee());
+            ticketDto.setWatchers(ticket.getWatchers());
             return ticketDto;
         }).collect(Collectors.toList());
     }
@@ -91,7 +94,15 @@ public class TicketServiceImpl implements TicketService {
 
         final Ticket ticketUpdated = ticketRepository.save(ticketUpdate);
         ticketDto.setTicket(ticketUpdated.getTicket());
-        return ticketDto;
+        TicketDto showUpdated = new TicketDto();
+        showUpdated.setTicket(ticketUpdate.getTicket());
+        showUpdated.setTitle(ticketUpdate.getTitle());
+        showUpdated.setDescription(ticketUpdate.getDescription());
+        showUpdated.setSeverity(ticketUpdate.getSeverity());
+        showUpdated.setStatus(ticketUpdate.getStatus());
+        showUpdated.setAssignee(ticketUpdate.getAssignee());
+        showUpdated.setWatchers(ticketUpdate.getWatchers());
+        return showUpdated;
     }
 
     @Override

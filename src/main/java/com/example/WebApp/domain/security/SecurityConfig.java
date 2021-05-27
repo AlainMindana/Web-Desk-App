@@ -1,4 +1,3 @@
-/*
 package com.example.WebApp.domain.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("admin")
                 .password(passwordEncoder().encode("password")).roles("ADMIN");
+//        auth.getDefaultUserDetailsService();
     }
 
     @Bean
@@ -33,7 +33,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception{
         http
-                .formLogin(Customizer.withDefaults());
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/webapp/**").hasRole("ADMIN")
+                .and()
+                .formLogin().disable();
     }
+
+/*    @Bean
+    @Override
+    protected UserDetailsService userDetailsService(){
+        List<UserDetails> users = new ArrayList<>();
+        users.add(User.withDefaultPasswordEncoder().username("user").password("123").roles("USER").build());
+        users.add(User.withDefaultPasswordEncoder().username("admin").password("123").roles("ADMIN").build());
+
+        return new InMemoryUserDetailsManager(users);
+    }*/
+
 }
-*/
