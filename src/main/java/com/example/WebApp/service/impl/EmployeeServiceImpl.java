@@ -7,6 +7,10 @@ import com.example.WebApp.repository.EmployeeRepository;
 import com.example.WebApp.repository.TicketRepository;
 import com.example.WebApp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +19,23 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService/*, UserDetailsService */{
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
     private TicketRepository ticketRepository;
+/*
+    @Override
+    public UserDetails loadUserByUsername(String employeeNumber) throws UsernameNotFoundException {
+        long empNum = Long.parseLong(employeeNumber);
+        final Employee employee = employeeRepository.findByEmployeeNumber(empNum);
+        if (employee == null){
+            throw new UsernameNotFoundException(employeeNumber);
+        }
+        UserDetails user = User.withUsername(employeeNumber).password(password);
+
+        return user;
+    }*/
 
 
     @Override
@@ -121,4 +137,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         final Ticket assignedTicket = ticketRepository.save(ticket);
         return assignedTicket;
     }
+
+
 }
