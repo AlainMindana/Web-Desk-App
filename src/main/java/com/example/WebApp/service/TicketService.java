@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface TicketService {
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     List<TicketDto> view(TicketDto ticketDto);
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     List<TicketDto> list();
 
     @PreAuthorize("hasRole('ADMIN')")

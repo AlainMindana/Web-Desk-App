@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     List<EmployeeDto> view(Long employeeNumber);
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     List<EmployeeDto> list();
 
     @PreAuthorize("hasRole('ADMIN')")

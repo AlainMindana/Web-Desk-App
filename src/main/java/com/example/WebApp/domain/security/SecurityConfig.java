@@ -41,10 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/webapp/**").hasRole("ADMIN")
+                .antMatchers("/webapp/**").hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin().disable();
     }
-
-
 }
