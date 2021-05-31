@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-/*    @Autowired
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
         auth.inMemoryAuthentication().withUser("user")
@@ -44,29 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webapp/**").hasRole("ADMIN")
                 .and()
                 .formLogin().disable();
-    }*/
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/webapp/**").hasRole("ADMIN")
-                .and()
-                .formLogin().disable();
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService(){
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("admin")
-                .roles("ADMIN")
-                .build();
 
-        return new InMemoryUserDetailsManager(user);
-    }
 }
