@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService/*, UserDetailsService */{
+public class EmployeeServiceImpl implements EmployeeService{
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
