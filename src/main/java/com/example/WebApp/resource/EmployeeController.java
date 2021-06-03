@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +24,10 @@ public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @GetMapping
+    public Principal retrievePrincipal(Principal principal){
+        return principal;
+    }
 
     @GetMapping("/")
     private ResponseEntity<Employee> getAllEmployee(){

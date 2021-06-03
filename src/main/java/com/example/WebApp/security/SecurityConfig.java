@@ -1,8 +1,12 @@
 package com.example.WebApp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,25 +15,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     DataSource dataSource;
 
-    @Autowired
+
+    @Override
     public void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.jdbcAuthentication()
+        auth
+                .jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from user_details where username=?")
-                .authoritiesByUsernameQuery("select username, authority from authorities where username=?")
+                .usersByUsernameQuery("select username, password, enabled"
+                        + " from user_details" +
+                        " where username = ?")
+                .authoritiesByUsernameQuery("select username, authority"
+                        + " from authorities "
+                        + "where username = ?")
                 ;
-
     }
 
     @Bean
@@ -40,12 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
-                .authorizeRequests()
-                .antMatchers("/webapp/**").permitAll()
-/*
-.and()
                 .csrf().disable()
-*/
+                .authorizeRequests()
+                .antMatchers("/webapp/**").hasRole("ADMIN")     //.antMatchers("/webapp/employee").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
         ;
     }
 }
